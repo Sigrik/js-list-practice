@@ -12,3 +12,17 @@ for (let i = 0; i < 100; ++i) {
     });
 }
 
+const productsContainer = document.querySelector(".products-container");
+
+products.forEach((product) => {
+  console.log(product);
+  const productContent = document.createElement("div");
+  const productText = document.createTextNode(
+    product.color + " " +
+    product.type + " " +
+    product.size + " " +
+    product.price
+  );
+  productContent.appendChild(productText);
+  productsContainer.appendChild(productContent);
+});
