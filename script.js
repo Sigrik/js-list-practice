@@ -1,6 +1,6 @@
 let products = [];
-const productColor = ["black", "white", "brown", "red"];
-const productType = ["t-shirt", "trousers", "jacket"];
+const productColor = ["Black", "White", "Brown", "Red"];
+const productType = ["T-shirt", "Trousers", "Jacket"];
 const productSize = ["L", "M", "S"];
 
 for (let i = 0; i < 100; ++i) {
@@ -17,12 +17,7 @@ const productsContainer = document.querySelector(".products-container");
 products.forEach((product) => {
   console.log(product);
   const productContent = document.createElement("div");
-  const productText = document.createTextNode(
-    product.color + " " +
-    product.type + " " +
-    product.size + " " +
-    product.price
-  );
+  const productText = document.createTextNode(`${product.color} ${product.type} ${product.size} ${product.price}`);
   productContent.appendChild(productText);
   productsContainer.appendChild(productContent);
 });
