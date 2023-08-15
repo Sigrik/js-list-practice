@@ -1,5 +1,12 @@
-const products = filterProducts("color", "white");
+const products = filterProducts("color", "other");
 renderTable(products);
+
+const filters = {
+  color: null,
+  type: null,
+  size: null,
+  price: null
+}
 
 function generateProducts() {
   const products = [];
@@ -43,7 +50,7 @@ function filterProducts(productAttribute, attributeValue) {
         return product.color === "White";
         break;
       case "color", "other":
-        return product.color !== "Black" || "White"; // not working as intended, needs fixing
+        return product.color !== "Black" && product.color !== "White";
         break;
       case "color", "all":
         return product.color;
