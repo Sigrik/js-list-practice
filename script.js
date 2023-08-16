@@ -9,7 +9,7 @@ const productFilterColor = {
   label: "Kolor",
   name: "color-filter",
   id: "color-filter",
-  options: ["Black", "White", "Brown", "Red"], // + All
+  options: ["Czarny", "Biały", "Brązowy", "Czerwony"], // + All
 };
 
 const productFilterType = {
@@ -55,7 +55,7 @@ function renderTable(products) {
   });
 }
 
-const filters = {
+const filtersValues = {
   color: null,
   type: null,
   size: null,
@@ -69,13 +69,13 @@ function filterProducts(productAttribute, attributeValue) {
   return products.filter((product) => {
     switch ((attribute, value)) {
       case ("color", "black"):
-        return product.color === "Black";
+        return product.color === "Czarny";
         break;
       case ("color", "white"):
-        return product.color === "White";
+        return product.color === "Biały";
         break;
       case ("color", "other"):
-        return product.color !== "Black" && product.color !== "White";
+        return product.color !== "Czarny" && product.color !== "Biały";
         break;
       case ("color", "all"):
         return product.color;
@@ -102,21 +102,23 @@ function filterProducts(productAttribute, attributeValue) {
   });
 }
 
-/*
-function renderFilterOptions() {
+function renderFilterOptions(filterName) {
   const filterContainer = document.querySelector(".filter-container");
-  products.forEach((product) => {
-    const filterContent = document.createElement("select");
-    const filterText = document.createTextNode(
-      `${product.color} ${product.type} ${product.size} ${product.price} zł`
-    );
-    filterContent.appendChild(filterText);
-    filterContainer.appendChild(filterContent);
+  const filterSelect = document.createElement("select");
+  const filterLabel = document.createElement("label");
+  filterSelect.setAttribute("name", `${filterName.name}`);
+  filterSelect.setAttribute("id", `${filterName.id}`);
+  filterLabel.setAttribute("for", `${filterName.name}`);
+  filterLabel.innerHTML = filterName.label;
+  filterName.options.forEach((option) => {
+    const filterOption = document.createElement("option");
+    filterOption.text = option;
+    filterSelect.add(filterOption);
   });
+  filterContainer.appendChild(filterLabel);
+  filterContainer.appendChild(filterSelect);
 }
 
-
-renderFilterOptions(productFilter1);
-renderFilterOptions(productFilter2);
-renderFilterOptions(productFilter3);
-*/
+renderFilterOptions(productFilterColor);
+renderFilterOptions(productFilterType);
+renderFilterOptions(productFilterSize);
