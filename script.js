@@ -8,21 +8,21 @@ const productSort = {
 const productFilterColor = {
   label: "Kolor",
   name: "color-filter",
-  id: "color-filter",
+  id: "color",
   options: ["Czarny", "Biały", "Brązowy", "Czerwony"], // + All
 };
 
 const productFilterType = {
   label: "Typ ubrania",
   name: "type-filter",
-  id: "type-filter",
+  id: "type",
   options: ["Koszulka", "Spodnie", "Kurtka"], // + All
 };
 
 const productFilterSize = {
   label: "Rozmiar",
   name: "size-filter",
-  id: "size-filter",
+  id: "size",
   options: ["L", "M", "S"], // + All
 };
 
@@ -112,6 +112,10 @@ function renderFilterOptions(filterName) {
   filterLabel.innerHTML = filterName.label;
   filterName.options.forEach((option) => {
     const filterOption = document.createElement("option");
+    filterOption.onclick = function onClickFilter() {
+      filtersValues[filterName.id] = filterOption.textContent;
+      console.log(filtersValues[filterName.id]);
+    };
     filterOption.text = option;
     filterSelect.add(filterOption);
   });
