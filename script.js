@@ -62,43 +62,13 @@ const filtersValues = {
   price: null,
 };
 
-function filterProducts(productAttribute, attributeValue) {
-  const products = generateProducts();
-  const attribute = productAttribute;
-  const value = attributeValue;
+function filterProducts() {
   return products.filter((product) => {
-    switch ((attribute, value)) {
-      case ("color", "black"):
-        return product.color === "Czarny";
-        break;
-      case ("color", "white"):
-        return product.color === "Biały";
-        break;
-      case ("color", "other"):
-        return product.color !== "Czarny" && product.color !== "Biały";
-        break;
-      case ("color", "all"):
-        return product.color;
-        break;
-      case ("type", "t-shirt"):
-        return product.type === "Koszulka";
-        break;
-      case ("type", "trousers"):
-        return product.type === "Spodnie";
-        break;
-      case ("type", "jacket"):
-        return product.type === "Kurtka";
-        break;
-      case ("size", "L"):
-        return product.type === "L";
-        break;
-      case ("size", "M"):
-        return product.type === "M";
-        break;
-      case ("size", "S"):
-        return product.type === "S";
-        break;
-    }
+    return (
+      product.color === filtersValues.color &&
+      product.type === filtersValues.type &&
+      product.size === filtersValues.size // add price filter after feat/price-slider is finished
+    );
   });
 }
 
@@ -113,8 +83,15 @@ function renderFilterOptions(filterName) {
   filterName.options.forEach((option) => {
     const filterOption = document.createElement("option");
     filterOption.onclick = function onClickFilter() {
+      const productsContainer = document.querySelector(".products-container");
+      function clearProducts(productsContainer) {
+        while (productsContainer.firstChild) {
+          productsContainer.removeChild(productsContainer.firstChild);
+        }
+      }
+      clearProducts(productsContainer);
       filtersValues[filterName.id] = filterOption.textContent;
-      console.log(filtersValues[filterName.id]);
+      renderTable(filterProducts());
     };
     filterOption.text = option;
     filterSelect.add(filterOption);
