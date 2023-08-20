@@ -62,6 +62,7 @@ const filtersValues = {
   price: null,
 };
 
+/*
 function filterProducts() {
   return products.filter((product) => {
     return (
@@ -70,6 +71,37 @@ function filterProducts() {
       product.size === filtersValues.size // add price filter after feat/price-slider is finished
     );
   });
+}
+*/
+
+function filterProducts() {
+  return products
+    .filter((product) => {
+      if (filtersValues.color != null) {
+        console.log("debugIF");
+        return product.color === filtersValues.color;
+      } else {
+        console.log("debugELSE");
+        return product;
+      }
+    })
+    .filter((product) => {
+      if (filtersValues.type != null) {
+        console.log("debugIF2");
+        return product.type === filtersValues.type;
+      } else {
+        console.log("debugELSE2");
+        return product;
+      }
+    })
+    .filter((product) => {
+      if (filtersValues.size != null) {
+        console.log("debugIF3");
+        return (
+          product.size === filtersValues.size // add price filter after feat/price-slider is finished
+        );
+      }
+    });
 }
 
 function renderFilterOptions(filterName) {
