@@ -1,0 +1,33 @@
+body {
+    font-family: Helvetica;
+    font-size: 1em;
+    background: #FFFCF8;
+    margin: 0;
+}
+
+.container {
+    margin-left: 24px;
+    margin-right: 24px;
+}
+
+.filter-navbar {
+    position: fixed;
+    background: #5EB299;
+    padding: 16px;
+    width: 100%;
+}
+
+.products-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    padding-top: 132px;
+}
+
+.products-container div {
+    outline: 1px solid;
+    display: grid;
+    align-items: center;
+    justify-items: center;
+    padding: 24px;
+    margin: 8px;
+}
