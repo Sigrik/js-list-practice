@@ -27,16 +27,22 @@ const productFilterSize = {
 };
 
 const products = generateProducts();
-//const products = filterProducts("color", "other");
 renderTable(products);
 
 function generateProducts() {
   const products = [];
   for (let i = 0; i < 100; ++i) {
     products.push({
-      color: productFilterColor.options[Math.floor(Math.random() * productFilterColor.options.length)],
-      type: productFilterType.options[Math.floor(Math.random() * productFilterType.options.length)],
-      size: productFilterSize.options[Math.floor(Math.random() * productFilterSize.options.length)],
+      color:
+        productFilterColor.options[
+          Math.floor(Math.random() * productFilterColor.options.length)
+        ],
+      type: productFilterType.options[
+        Math.floor(Math.random() * productFilterType.options.length)
+      ],
+      size: productFilterSize.options[
+        Math.floor(Math.random() * productFilterSize.options.length)
+      ],
       price: Math.floor(Math.random() * (200 - 25) + 25),
     });
   }
@@ -45,6 +51,7 @@ function generateProducts() {
 
 function renderTable(products) {
   const productsContainer = document.querySelector(".products-container");
+  productsContainer.innerHTML = "";
   products.forEach((product) => {
     const productContent = document.createElement("div");
     const productText = document.createTextNode(
@@ -114,17 +121,6 @@ function renderFilterOptions(filterName) {
   filterLabel.innerHTML = filterName.label;
   filterName.options.forEach((option) => {
     const filterOption = document.createElement("option");
-    filterOption.onclick = function onClickFilter() {
-      const productsContainer = document.querySelector(".products-container");
-      function clearProducts(productsContainer) {
-        while (productsContainer.firstChild) {
-          productsContainer.removeChild(productsContainer.firstChild);
-        }
-      }
-      clearProducts(productsContainer);
-      filtersValues[filterName.id] = filterOption.textContent;
-      renderTable(filterProducts());
-    };
     filterOption.text = option;
     filterSelect.add(filterOption);
   });
@@ -135,3 +131,16 @@ function renderFilterOptions(filterName) {
 renderFilterOptions(productFilterColor);
 renderFilterOptions(productFilterType);
 renderFilterOptions(productFilterSize);
+
+const select = document.getElementById([productFilterColor.id]);
+select.onchange = (e) => {
+  filtersValues[productFilterColor.id] = e.target.value;
+  console.log(filtersValues.color);
+  //renderTable(filterProducts());
+};
+
+    /*
+    filterOption.onclick = function onClickFilter() {
+      filtersValues[filterName.id] = filterOption.textContent;
+      renderTable(filterProducts());
+    }; */
