@@ -33,16 +33,9 @@ function generateProducts() {
   const products = [];
   for (let i = 0; i < 100; ++i) {
     products.push({
-      color:
-        productFilterColor.options[
-          Math.floor(Math.random() * productFilterColor.options.length)
-        ],
-      type: productFilterType.options[
-        Math.floor(Math.random() * productFilterType.options.length)
-      ],
-      size: productFilterSize.options[
-        Math.floor(Math.random() * productFilterSize.options.length)
-      ],
+      color: productFilterColor.options[Math.floor(Math.random() * productFilterColor.options.length)],
+      type: productFilterType.options[Math.floor(Math.random() * productFilterType.options.length)],
+      size: productFilterSize.options[Math.floor(Math.random() * productFilterSize.options.length)],
       price: Math.floor(Math.random() * (200 - 25) + 25),
     });
   }
@@ -69,45 +62,26 @@ const filtersValues = {
   price: null,
 };
 
-/*
-function filterProducts() {
-  return products.filter((product) => {
-    return (
-      product.color === filtersValues.color &&
-      product.type === filtersValues.type &&
-      product.size === filtersValues.size // add price filter after feat/price-slider is finished
-    );
-  });
-}
-*/
-
 function filterProducts() {
   return products
     .filter((product) => {
       if (filtersValues.color != null) {
-        console.log("debugIF");
         return product.color === filtersValues.color;
-      } else {
-        console.log("debugELSE");
-        return product;
       }
+      return product;
     })
     .filter((product) => {
       if (filtersValues.type != null) {
-        console.log("debugIF2");
         return product.type === filtersValues.type;
-      } else {
-        console.log("debugELSE2");
-        return product;
       }
+      return product;
     })
     .filter((product) => {
       if (filtersValues.size != null) {
-        console.log("debugIF3");
-        return (
-          product.size === filtersValues.size // add price filter after feat/price-slider is finished
-        );
+        return product.size === filtersValues.size;
       }
+      return product;
+      // add price filter after feat/price-slider is finished
     });
 }
 
@@ -128,19 +102,15 @@ function renderFilterOptions(filterName) {
   filterContainer.appendChild(filterSelect);
 }
 
-renderFilterOptions(productFilterColor);
-renderFilterOptions(productFilterType);
-renderFilterOptions(productFilterSize);
+const filters = [productFilterColor, productFilterType, productFilterSize]; // add price filter after feat/price-slider is finished
 
-const select = document.getElementById([productFilterColor.id]);
-select.onchange = (e) => {
-  filtersValues[productFilterColor.id] = e.target.value;
-  console.log(filtersValues.color);
-  //renderTable(filterProducts());
-};
-
-    /*
-    filterOption.onclick = function onClickFilter() {
-      filtersValues[filterName.id] = filterOption.textContent;
-      renderTable(filterProducts());
-    }; */
+filters.forEach((filter) => {
+  renderFilterOptions(filter);
+  const select = document.getElementById([filter.id]);
+  console.log(select);
+  select.onchange = (e) => {
+    filtersValues[filter.id] = e.target.value;
+    console.log(filtersValues.color);
+    renderTable(filterProducts());
+  };
+});
