@@ -2,27 +2,23 @@ body {
   font-family: Helvetica;
   font-size: 1em;
   background: #fffcf8;
-  margin: 0;
-}
+  margin: 0; }
 
 .container {
   margin-left: 24px;
-  margin-right: 24px;
-}
+  margin-right: 24px; }
 
 .filter-navbar {
   position: fixed;
   background: #5eb299;
   padding: 16px;
   width: 100%;
-  left: 0;
-}
+  left: 0; }
 
 .products-container {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
-  padding-top: 132px;
-}
+  padding-top: 132px; }
 
 .products-container div {
   outline: 1px solid;
@@ -30,5 +26,4 @@ body {
   align-items: center;
   justify-items: center;
   padding: 24px;
-  margin: 8px;
-}
+  margin: 8px; }
