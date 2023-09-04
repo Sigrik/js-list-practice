@@ -20,21 +20,25 @@
             <option value="" onclick="">Cena - od najniższej</option>
             <option value="" onclick="">Cena - od najwyższej</option>
           </select>
-          <div class="range">
-            <div class="range-slider">
-              <span class="range-selected"></span>
+          <div class="price-input">
+            <div class="field">
+              <span>Od</span>
+              <input type="number" class="input-min" value="2500">
             </div>
-            <div class="price-input">
-              <input type="range" class="min" min="0" max="1000" value="50" step="1" />
-              <input type="range" class="max" min="0" max="1000" value="200" step="1" />
-            </div>
-            <div class="price-range">
-              <label for="min">Od</label>
-              <input type="number" name="min" value="50" />
-              <label for="max">Do</label>
-              <input type="number" name="max" value="200" />
+            <div class="separator">-</div>
+            <div class="field">
+              <span>Do</span>
+              <input type="number" class="input-max" value="7500">
             </div>
           </div>
+          <div class="slider">
+            <div class="progress"></div>
+          </div>
+          <div class="range-input">
+            <input type="range" class="range-min" min="0" max="10000" value="2500" step="1" autocomplete="off">
+            <input type="range" class="range-max" min="0" max="10000" value="7500" step="1" autocomplete="off">
+          </div>
+        </div>
         </div>
       </div>
       <div class="products-container"></div>

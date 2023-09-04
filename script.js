@@ -26,42 +26,42 @@ const productFilterSize = {
   options: ["L", "M", "S"], // + All
 };
 
-let rangeMin = 20;
-const range = document.querySelector(".range-selected");
-const rangeInput = document.querySelectorAll(".price-input input");
-const rangePrice = document.querySelectorAll(".price-range input");
-
-rangeInput.forEach((input) => {
+const rangeInput = document.querySelectorAll(".range-input input"),
+  priceInput = document.querySelectorAll(".price-input input"),
+  range = document.querySelector(".slider .progress");
+let priceGap = 1000;
+priceInput.forEach((input) => {
   input.addEventListener("input", (e) => {
-    let minRange = parseInt(rangeInput[0].value);
-    let maxRange = parseInt(rangeInput[1].value);
-    if (maxRange - minRange < rangeMin) {
-      if (e.target.className === "min") {
-        rangeInput[0].value = maxRange - rangeMin;
-      } else {
-        rangeInput[1].value = minRange + rangeMin;
-      }
-    } else {
-      rangePrice[0].value = minRange;
-      rangePrice[1].value = maxRange;
-      range.style.left = (minRange / rangeInput[0].max) * 100 + "%";
-      range.style.right = 100 - (maxRange / rangeInput[1].max) * 100 + "%";
-    }
-  });
-});
+    let minPrice = parseInt(priceInput[0].value),
+      maxPrice = parseInt(priceInput[1].value);
 
-rangePrice.forEach((input) => {
-  input.addEventListener("input", (e) => {
-    let minPrice = rangePrice[0].value;
-    let maxPrice = rangePrice[1].value;
-    if (maxPrice - minPrice >= rangeMin && maxPrice <= rangeInput[1].max) {
-      if (e.target.className === "min") {
+    if (maxPrice - minPrice >= priceGap && maxPrice <= rangeInput[1].max) {
+      if (e.target.className === "input-min") {
         rangeInput[0].value = minPrice;
         range.style.left = (minPrice / rangeInput[0].max) * 100 + "%";
       } else {
         rangeInput[1].value = maxPrice;
         range.style.right = 100 - (maxPrice / rangeInput[1].max) * 100 + "%";
       }
+    }
+  });
+});
+
+rangeInput.forEach((input) => {
+  input.addEventListener("input", (e) => {
+    let minVal = parseInt(rangeInput[0].value),
+      maxVal = parseInt(rangeInput[1].value);
+    if (maxVal - minVal < priceGap) {
+      if (e.target.className === "range-min") {
+        rangeInput[0].value = maxVal - priceGap;
+      } else {
+        rangeInput[1].value = minVal + priceGap;
+      }
+    } else {
+      priceInput[0].value = minVal;
+      priceInput[1].value = maxVal;
+      range.style.left = (minVal / rangeInput[0].max) * 100 + "%";
+      range.style.right = 100 - (maxVal / rangeInput[1].max) * 100 + "%";
     }
   });
 });
