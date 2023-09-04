@@ -15,20 +15,9 @@ body {
   width: 100%;
   left: 0; }
 
-.wrapper {
-  width: 400px;
-  background: #fff;
-  border-radius: 10px;
-  padding: 20px 25px 40px;
-  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.1); }
-
-header h2 {
-  font-size: 24px;
-  font-weight: 600; }
-
-header p {
-  margin-top: 5px;
-  font-size: 16px; }
+.price-container {
+  padding: 20px;
+  width: 50%; }
 
 .price-input {
   width: 100%;
@@ -71,8 +60,8 @@ input[type="number"]::-webkit-inner-spin-button {
 
 .slider .progress {
   height: 100%;
-  left: 25%;
-  right: 25%;
+  left: 5%;
+  right: 60%;
   position: absolute;
   border-radius: 5px;
   background: #17a2b8; }
@@ -112,7 +101,7 @@ input[type="range"]::-moz-range-thumb {
 .products-container {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
-  padding-top: 132px; }
+  padding-top: 176px; }
 
 .products-container div {
   outline: 1px solid;
