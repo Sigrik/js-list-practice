@@ -26,6 +26,36 @@ const productFilterSize = {
   options: ["L", "M", "S"], // + All
 };
 
+const searchInput = document.querySelector("#search-input");
+const searchButton = document.querySelector("#search-button");
+
+searchButton.addEventListener("click", (e) => {
+  let inputValue = searchInput.value.toLowerCase();
+  const colorFilter = productFilterColor.options.map((element) => {
+    return element.toLowerCase();
+  });
+  const typeFilter = productFilterType.options.map((element) => {
+    return element.toLowerCase();
+  });
+  const sizeFilter = productFilterSize.options.map((element) => {
+    return element.toLowerCase();
+  });
+  if (
+    colorFilter.includes(inputValue) ||
+    typeFilter.includes(inputValue) ||
+    sizeFilter.includes(inputValue)
+  ) {
+    renderTable(
+      products.filter((product) => {
+        console.log(product.color.toLowerCase().includes(inputValue));
+        return product.color.toLowerCase().includes(inputValue);
+      })
+    );
+  } else {
+    alert("Żaden z produktów nie odpowiada kryteriom wyszukiwania"); //style the alert later
+  }
+});
+
 const rangeInput = document.querySelectorAll(".range-input input"),
   priceInput = document.querySelectorAll(".price-input input"),
   range = document.querySelector(".slider .progress");
@@ -147,10 +177,8 @@ const filters = [productFilterColor, productFilterType, productFilterSize]; // a
 filters.forEach((filter) => {
   renderFilterOptions(filter);
   const select = document.getElementById([filter.id]);
-  console.log(select);
   select.onchange = (e) => {
     filtersValues[filter.id] = e.target.value;
-    console.log(filtersValues.color);
     renderTable(filterProducts());
   };
 });
