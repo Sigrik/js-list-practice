@@ -29,30 +29,21 @@ const productFilterSize = {
 const searchInput = document.querySelector("#search-input");
 const searchButton = document.querySelector("#search-button");
 
-searchButton.addEventListener("click", (e) => {
-  let inputValue = searchInput.value.toLowerCase();
-  const colorFilter = productFilterColor.options.map((element) => {
-    return element.toLowerCase();
-  });
-  const typeFilter = productFilterType.options.map((element) => {
-    return element.toLowerCase();
-  });
-  const sizeFilter = productFilterSize.options.map((element) => {
-    return element.toLowerCase();
-  });
-  if (
-    colorFilter.includes(inputValue) ||
-    typeFilter.includes(inputValue) ||
-    sizeFilter.includes(inputValue)
-  ) {
+searchInput.addEventListener("input", (e) => {
+  let inputValue = e.target.value;
+
+  if (inputValue && inputValue.trim().length > 0) {
+    inputValue = inputValue.trim().toLowerCase();
+
     renderTable(
       products.filter((product) => {
-        console.log(product.color.toLowerCase().includes(inputValue));
-        return product.color.toLowerCase().includes(inputValue);
+        return (
+          product.type.toLowerCase().includes(inputValue)
+        );
       })
     );
   } else {
-    alert("Żaden z produktów nie odpowiada kryteriom wyszukiwania"); //style the alert later
+    //alert("Żaden z produktów nie odpowiada kryteriom wyszukiwania"); // style it later & use elsewhere
   }
 });
 
@@ -103,9 +94,16 @@ function generateProducts() {
   const products = [];
   for (let i = 0; i < 100; ++i) {
     products.push({
-      color: productFilterColor.options[Math.floor(Math.random() * productFilterColor.options.length)],
-      type: productFilterType.options[Math.floor(Math.random() * productFilterType.options.length)],
-      size: productFilterSize.options[Math.floor(Math.random() * productFilterSize.options.length)],
+      color:
+        productFilterColor.options[
+          Math.floor(Math.random() * productFilterColor.options.length)
+        ],
+      type: productFilterType.options[
+        Math.floor(Math.random() * productFilterType.options.length)
+      ],
+      size: productFilterSize.options[
+        Math.floor(Math.random() * productFilterSize.options.length)
+      ],
       price: Math.floor(Math.random() * (200 - 25) + 25),
     });
   }
