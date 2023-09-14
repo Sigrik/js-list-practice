@@ -26,6 +26,27 @@ const productFilterSize = {
   options: ["L", "M", "S"], // + All
 };
 
+const searchInput = document.querySelector("#search-input");
+const searchButton = document.querySelector("#search-button");
+
+searchInput.addEventListener("input", (e) => {
+  let inputValue = e.target.value;
+
+  if (inputValue && inputValue.trim().length > 0) {
+    inputValue = inputValue.trim().toLowerCase();
+
+    renderTable(
+      products.filter((product) => {
+        return (
+          product.type.toLowerCase().includes(inputValue)
+        );
+      })
+    );
+  } else {
+    //alert("Żaden z produktów nie odpowiada kryteriom wyszukiwania"); // style it later & use elsewhere
+  }
+});
+
 const rangeInput = document.querySelectorAll(".range-input input"),
   priceInput = document.querySelectorAll(".price-input input"),
   range = document.querySelector(".slider .progress");
@@ -73,9 +94,16 @@ function generateProducts() {
   const products = [];
   for (let i = 0; i < 100; ++i) {
     products.push({
-      color: productFilterColor.options[Math.floor(Math.random() * productFilterColor.options.length)],
-      type: productFilterType.options[Math.floor(Math.random() * productFilterType.options.length)],
-      size: productFilterSize.options[Math.floor(Math.random() * productFilterSize.options.length)],
+      color:
+        productFilterColor.options[
+          Math.floor(Math.random() * productFilterColor.options.length)
+        ],
+      type: productFilterType.options[
+        Math.floor(Math.random() * productFilterType.options.length)
+      ],
+      size: productFilterSize.options[
+        Math.floor(Math.random() * productFilterSize.options.length)
+      ],
       price: Math.floor(Math.random() * (200 - 25) + 25),
     });
   }
@@ -147,10 +175,8 @@ const filters = [productFilterColor, productFilterType, productFilterSize]; // a
 filters.forEach((filter) => {
   renderFilterOptions(filter);
   const select = document.getElementById([filter.id]);
-  console.log(select);
   select.onchange = (e) => {
     filtersValues[filter.id] = e.target.value;
-    console.log(filtersValues.color);
     renderTable(filterProducts());
   };
 });
