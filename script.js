@@ -1,51 +1,62 @@
+let cachedProducts = [];
+
+const getProducts = async () => {
+  if (cachedProducts.length > 0) {
+    return cachedProducts;
+  }
+  const response = await fetch("https://fakestoreapi.com/products");
+  const responseJSON = await response.json();
+  cachedProducts = responseJSON;
+  return responseJSON;
+};
+
 const productSort = {
   label: "Sortowanie",
   name: "sort",
   id: "sort",
-  options: ["asc", "desc", "default"],
+  options: ["priceAsc", "priceDesc", "rating", "ratingCount", "default"],
 };
 
-const productFilterColor = {
-  label: "Kolor",
-  name: "color-filter",
-  id: "color",
-  options: ["Czarny", "Biały", "Brązowy", "Czerwony"], // + All
-};
-
-const productFilterType = {
-  label: "Typ ubrania",
-  name: "type-filter",
-  id: "type",
-  options: ["Koszulka", "Spodnie", "Kurtka"], // + All
-};
-
-const productFilterSize = {
-  label: "Rozmiar",
-  name: "size-filter",
-  id: "size",
-  options: ["L", "M", "S"], // + All
+const productFilterCategory = {
+  label: "Category",
+  name: "category-filter",
+  id: "category",
+  options: ["men's clothing", "jewelery", "electronics", "women's clothing"], // + All
 };
 
 const searchInput = document.querySelector("#search-input");
 const searchButton = document.querySelector("#search-button");
+let searchValue = null;
 
 searchInput.addEventListener("input", (e) => {
   let inputValue = e.target.value;
-
   if (inputValue && inputValue.trim().length > 0) {
     inputValue = inputValue.trim().toLowerCase();
-
-    renderTable(
-      products.filter((product) => {
-        return (
-          product.type.toLowerCase().includes(inputValue)
-        );
-      })
-    );
+    searchValue = inputValue;
+    renderTableSearch();
+    return searchValue;
   } else {
-    //alert("Żaden z produktów nie odpowiada kryteriom wyszukiwania"); // style it later & use elsewhere
+    renderTableWithProducts();
   }
 });
+
+const renderTableSearch = async () => {
+  let products = await getProducts();
+  if (
+    products.filter((product) => {
+      return product.title.toLowerCase().includes(searchValue);
+      // if there are no products matching, display message ("We're sorry, no products match the given query"); style it later & use elsewhere
+    }).length === 0
+  ) {
+    console.log("We're sorry, no products match the given query");
+  } else {
+    renderTable(
+      products.filter((product) => {
+        return product.title.toLowerCase().includes(searchValue);
+      })
+    );
+  }
+};
 
 const rangeInput = document.querySelectorAll(".range-input input"),
   priceInput = document.querySelectorAll(".price-input input"),
@@ -87,60 +98,48 @@ rangeInput.forEach((input) => {
   });
 });
 
-const products = generateProducts();
-renderTable(products);
-
-function generateProducts() {
-  const products = [];
-  for (let i = 0; i < 100; ++i) {
-    products.push({
-      color:
-        productFilterColor.options[
-          Math.floor(Math.random() * productFilterColor.options.length)
-        ],
-      type: productFilterType.options[
-        Math.floor(Math.random() * productFilterType.options.length)
-      ],
-      size: productFilterSize.options[
-        Math.floor(Math.random() * productFilterSize.options.length)
-      ],
-      price: Math.floor(Math.random() * (200 - 25) + 25),
-    });
+const renderTable = async (products) => {
+  if (!products) {
+    // show loader
+    console.log("loader");
+    return;
   }
-  return products;
-}
-
-function renderTable(products) {
   const productsContainer = document.querySelector(".products-container");
   productsContainer.innerHTML = "";
   products.forEach((product) => {
     const productContent = document.createElement("div");
     const productText = document.createTextNode(
-      `${product.color} ${product.type} ${product.size} ${product.price} zł`
+      `${product.title} ${product.category} ${product.description} ${product.price} zł`
     );
     productContent.appendChild(productText);
     productsContainer.appendChild(productContent);
   });
-}
-
-const filtersValues = {
-  color: null,
-  type: null,
-  size: null,
-  price: null,
 };
 
-function filterProducts() {
+const renderTableWithProducts = async () => {
+  const products = await getProducts();
+  renderTable(products);
+};
+
+const renderTableWithFilteredProducts = async () => {
+  const filteredProducts = await filterProducts();
+  renderTable(filteredProducts);
+};
+
+renderTableWithProducts();
+
+const filtersValues = {
+  category: null,
+  priceMin: null,
+  priceMax: null,
+};
+
+const filterProducts = async () => {
+  const products = await getProducts();
   return products
     .filter((product) => {
-      if (filtersValues.color != null) {
-        return product.color === filtersValues.color;
-      }
-      return product;
-    })
-    .filter((product) => {
-      if (filtersValues.type != null) {
-        return product.type === filtersValues.type;
+      if (filtersValues.category != null) {
+        return product.category === filtersValues.category;
       }
       return product;
     })
@@ -148,10 +147,9 @@ function filterProducts() {
       if (filtersValues.size != null) {
         return product.size === filtersValues.size;
       }
-      return product;
-      // add price filter after feat/price-slider is finished
+      return product; // add price filter after feat/price-slider is finished
     });
-}
+};
 
 function renderFilterOptions(filterName) {
   const filterContainer = document.querySelector(".filter-container");
@@ -170,13 +168,13 @@ function renderFilterOptions(filterName) {
   filterContainer.appendChild(filterSelect);
 }
 
-const filters = [productFilterColor, productFilterType, productFilterSize]; // add price filter after feat/price-slider is finished
+const filters = [productFilterCategory]; // add price filter after feat/price-slider is finished
 
 filters.forEach((filter) => {
   renderFilterOptions(filter);
   const select = document.getElementById([filter.id]);
   select.onchange = (e) => {
     filtersValues[filter.id] = e.target.value;
-    renderTable(filterProducts());
+    renderTableWithFilteredProducts();
   };
 });
