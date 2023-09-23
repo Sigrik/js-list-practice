@@ -113,3 +113,10 @@ input[type="range"]::-moz-range-thumb {
   background-repeat: no-repeat;
   background-position: center;
   margin-bottom: 24px; }
+
+.star {
+  display: inline;
+  height: 24px;
+  position: relative;
+  z-index: -1;
+  filter: invert(54%) sepia(39%) saturate(6534%) hue-rotate(157deg) brightness(99%) contrast(82%); }
