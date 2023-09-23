@@ -98,28 +98,20 @@ rangeInput.forEach((input) => {
 });
 
 const ratingToStars = (rating) => {
-  // Round to nearest half
   rating = Math.round(rating * 2) / 2;
   let output = [];
-
-  // Append all the filled whole stars
   for (var i = rating; i >= 1; i--)
     output.push(
       '<img src = "./svg/star-full.svg" alt="Full Star" class="star rating-star-full" aria-hidden="true"></img>&nbsp;'
     );
-
-  // If there is a half a star, append it
   if (i == 0.5)
     output.push(
       '<img src = "./svg/star-half.svg" alt="Half Star" class="star rating-star-half" aria-hidden="true"></img>&nbsp;'
     );
-
-  // Fill the empty stars
   for (let i = 5 - rating; i >= 1; i--)
     output.push(
       '<img src = "./svg/star-empty.svg" alt="Empty Star" class="star rating-star-empty" aria-hidden="true"></img>&nbsp;'
     );
-
   return output.join("");
 };
 

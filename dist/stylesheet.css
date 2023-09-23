@@ -116,4 +116,7 @@ input[type="range"]::-moz-range-thumb {
 
 .star {
   display: inline;
-  height: 24px; }
+  height: 24px;
+  position: relative;
+  z-index: -1;
+  filter: invert(54%) sepia(39%) saturate(6534%) hue-rotate(157deg) brightness(99%) contrast(82%); }

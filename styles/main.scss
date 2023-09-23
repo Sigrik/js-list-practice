@@ -71,7 +71,7 @@ input[type="number"]::-webkit-inner-spin-button {
   right: 60%;
   position: absolute;
   border-radius: 5px;
-  background: #17a2b8;
+  background: $blue;
 }
 
 .range-input {
@@ -93,7 +93,7 @@ input[type="range"]::-webkit-slider-thumb {
   height: 17px;
   width: 17px;
   border-radius: 50%;
-  background: #17a2b8;
+  background: $blue;
   pointer-events: auto;
   -webkit-appearance: none;
   box-shadow: 0 0 6px rgba(0, 0, 0, 0.05);
@@ -104,7 +104,7 @@ input[type="range"]::-moz-range-thumb {
   width: 17px;
   border: none;
   border-radius: 50%;
-  background: #17a2b8;
+  background: $blue;
   pointer-events: auto;
   -moz-appearance: none;
   box-shadow: 0 0 6px rgba(0, 0, 0, 0.05);
@@ -137,4 +137,8 @@ input[type="range"]::-moz-range-thumb {
 .star {
   display: inline;
   height: 24px;
+  position: relative;
+  z-index: -1;
+  filter: invert(54%) sepia(39%) saturate(6534%) hue-rotate(157deg)
+    brightness(99%) contrast(82%);
 }
