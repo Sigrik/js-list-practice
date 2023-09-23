@@ -45,10 +45,9 @@ const renderTableSearch = async () => {
   if (
     products.filter((product) => {
       return product.title.toLowerCase().includes(searchValue);
-      // if there are no products matching, display message ("We're sorry, no products match the given query"); style it later & use elsewhere
     }).length === 0
   ) {
-    console.log("We're sorry, no products match the given query");
+    console.log("We're sorry, no products match the given query"); //style it later & use elsewhere
   } else {
     renderTable(
       products.filter((product) => {
@@ -108,10 +107,23 @@ const renderTable = async (products) => {
   productsContainer.innerHTML = "";
   products.forEach((product) => {
     const productContent = document.createElement("div");
-    const productText = document.createTextNode(
-      `${product.title} ${product.category} ${product.description} ${product.price} zł`
-    );
-    productContent.appendChild(productText);
+    productContent.classList.add("product");
+    const productTitle = document.createElement("div");
+    productTitle.classList.add("product-title");
+    productTitle.innerHTML = `${product.title}`;
+    const productImage = document.createElement("div");
+    productImage.classList.add("product-image");
+    productImage.style.backgroundImage = `url(${product.image})`;
+    const productPrice = document.createElement("div");
+    productPrice.classList.add("product-price");
+    productPrice.innerHTML = `${product.price} zł`;
+    const productRating = document.createElement("div");
+    productRating.classList.add("product-rating");
+    productRating.innerHTML = `Rating: ${product.rating.rate} from ${product.rating.count} ratings`;
+    productContent.appendChild(productImage);
+    productContent.appendChild(productTitle);
+    productContent.appendChild(productPrice);
+    productContent.appendChild(productRating);
     productsContainer.appendChild(productContent);
   });
 };

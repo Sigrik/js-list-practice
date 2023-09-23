@@ -10,32 +10,34 @@
     <div class="container">
       <div class="filter-navbar">
         <div class="search-container">
-          <input type="search" id="search-input" placeholder="Szukaj" autocomplete="off"/>
-          <button id="search-button">Szukaj</button>
+          <input type="search" id="search-input" placeholder="Search" autocomplete="off"/>
+          <button id="search-button">Search</button>
         </div>
         <div class="filter-container">
-          <label for="sort">Sortowanie</label>
+          <label for="sort">Sort by:</label>
           <select name="sort" id="sort">
-            <option value="" onclick="">Domyślne sortowanie</option>
-            <option value="" onclick="">Cena - od najniższej</option>
-            <option value="" onclick="">Cena - od najwyższej</option>
+            <option value="" onclick="">Default</option>
+            <option value="" onclick="">Price - descending</option>
+            <option value="" onclick="">Price - ascending</option>
+            <option value="" onclick="">Rating</option>
+            <option value="" onclick="">Popularity</option>
           </select>
           <div class="price-container">
-            <span>Cena (zł):</span>
+            <span>Price (zł):</span>
             <div class="slider">
               <div class="progress"></div>
             </div>
             <div class="range-input">
-              <input type="range" class="range-min" min="0" max="500" value="25" step="1" autocomplete="off">
-              <input type="range" class="range-max" min="0" max="500" value="200" step="1" autocomplete="off">
+              <input type="range" class="range-min" min="0" max="1000" value="50" step="1" autocomplete="off">
+              <input type="range" class="range-max" min="0" max="1000" value="400" step="1" autocomplete="off">
             </div>
           <div class="price-input">
             <div class="field">
-              <input type="number" class="input-min" value="25" autocomplete="off">
+              <input type="number" class="input-min" value="50" autocomplete="off">
             </div>
             <div class="separator">-</div>
             <div class="field">
-              <input type="number" class="input-max" value="200" autocomplete="off">
+              <input type="number" class="input-max" value="400" autocomplete="off">
             </div>
           </div>
           </div>

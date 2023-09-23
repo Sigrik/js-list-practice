@@ -10,7 +10,7 @@ body {
 
 .filter-navbar {
   position: fixed;
-  background: #5eb299;
+  background: #fffcf8;
   padding: 16px;
   width: 100%;
   left: 0; }
@@ -98,10 +98,18 @@ input[type="range"]::-moz-range-thumb {
   grid-template-columns: 1fr 1fr 1fr 1fr;
   padding-top: 236px; }
 
-.products-container div {
+.product {
   outline: 1px solid;
   display: grid;
   align-items: center;
-  justify-items: center;
+  justify-items: left;
   padding: 24px;
   margin: 8px; }
+
+.product-image {
+  height: 300px;
+  width: 100%;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  margin-bottom: 24px; }
