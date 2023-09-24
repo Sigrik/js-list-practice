@@ -10,6 +10,12 @@ const getProducts = async () => {
   return responseJSON;
 };
 
+const container = document.querySelector(".products-container");
+const skeletonTemplate = document.getElementById("skeleton-template");
+for (let i = 0; i < 10; i++) {
+  container.append(skeletonTemplate.content.cloneNode(true));
+}
+
 const productSort = {
   label: "Sortowanie",
   name: "sort",
@@ -126,20 +132,18 @@ const renderTable = async (products) => {
   products.forEach((product) => {
     const productContent = document.createElement("div");
     productContent.classList.add("product");
-    const productTitle = document.createElement("div");
-    productTitle.classList.add("product-title");
-    productTitle.innerHTML = `${product.title}`;
     const productImage = document.createElement("div");
     productImage.classList.add("product-image");
     productImage.style.backgroundImage = `url(${product.image})`;
+    const productTitle = document.createElement("div");
+    productTitle.classList.add("product-info", "product-title");
+    productTitle.innerHTML = `${product.title}`;
     const productPrice = document.createElement("div");
-    productPrice.classList.add("product-price");
+    productPrice.classList.add("product-info", "product-price");
     productPrice.innerHTML = `${product.price} zł`;
     const productRating = document.createElement("div");
-    productRating.classList.add("product-rating");
-    productRating.innerHTML =
-      ratingToStars(product.rating.rate) +
-      `from ${product.rating.count} ratings`;
+    productRating.classList.add("product-info", "product-rating");
+    productRating.innerHTML = ratingToStars(product.rating.rate);
     productContent.appendChild(productImage);
     productContent.appendChild(productTitle);
     productContent.appendChild(productPrice);
