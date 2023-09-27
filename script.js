@@ -106,7 +106,8 @@ rangeInput.forEach((input) => {
 const ratingToStars = (rating) => {
   rating = Math.round(rating * 2) / 2;
   let output = [];
-  for (var i = rating; i >= 1; i--)
+  let i;
+  for (i = rating; i >= 1; i--)
     output.push(
       '<img src = "./svg/star-full.svg" alt="Full Star" class="star rating-star-full" aria-hidden="true"></img>&nbsp;'
     );
@@ -114,7 +115,7 @@ const ratingToStars = (rating) => {
     output.push(
       '<img src = "./svg/star-half.svg" alt="Half Star" class="star rating-star-half" aria-hidden="true"></img>&nbsp;'
     );
-  for (let i = 5 - rating; i >= 1; i--)
+  for (i = 5 - rating; i >= 1; i--)
     output.push(
       '<img src = "./svg/star-empty.svg" alt="Empty Star" class="star rating-star-empty" aria-hidden="true"></img>&nbsp;'
     );
@@ -214,3 +215,34 @@ filters.forEach((filter) => {
     renderTableWithFilteredProducts();
   };
 });
+
+const sort = document.getElementById("sort");
+
+sort.onchange = () => {
+  let sortValue = sort.value;
+  const renderTableSort = async () => {
+    const products = await getProducts();
+    switch (sortValue) {
+      case "default":
+        renderTable(products.sort((a, b) => a.price - b.price));
+        console.log("default");
+        break;
+      case "priceDesc":
+        renderTable(products.sort((a, b) => b.price - a.price));
+        console.log("priceDesc");
+        break;
+      case "priceAsc":
+        renderTable(products.sort((a, b) => a.price - b.price));
+        console.log("priceAsc");
+        break;
+      case "rating":
+        renderTable(products.sort((a, b) => b.rating.rate - a.rating.rate));
+        console.log("rating");
+        break;
+      case "ratingCount":
+        renderTable(products.sort((a, b) => b.rating.count - a.rating.count));
+        console.log("ratingCount");
+    }
+  };
+  renderTableSort();
+};
