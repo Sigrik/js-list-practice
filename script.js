@@ -16,51 +16,17 @@ for (let i = 0; i < 10; i++) {
   container.append(skeletonTemplate.content.cloneNode(true));
 }
 
-const productSort = {
-  label: "Sortowanie",
-  name: "sort",
-  id: "sort",
-  options: ["priceAsc", "priceDesc", "rating", "ratingCount", "default"],
-};
-
 const productFilterCategory = {
   label: "Category",
   name: "category-filter",
   id: "category",
-  options: ["men's clothing", "jewelery", "electronics", "women's clothing"], // + All
-};
-
-const searchInput = document.querySelector("#search-input");
-const searchButton = document.querySelector("#search-button");
-let searchValue = null;
-
-searchInput.addEventListener("input", (e) => {
-  let inputValue = e.target.value;
-  if (inputValue && inputValue.trim().length > 0) {
-    inputValue = inputValue.trim().toLowerCase();
-    searchValue = inputValue;
-    renderTableSearch();
-    return searchValue;
-  } else {
-    renderTableWithProducts();
-  }
-});
-
-const renderTableSearch = async () => {
-  let products = await getProducts();
-  if (
-    products.filter((product) => {
-      return product.title.toLowerCase().includes(searchValue);
-    }).length === 0
-  ) {
-    console.log("We're sorry, no products match the given query"); //style it later & use elsewhere
-  } else {
-    renderTable(
-      products.filter((product) => {
-        return product.title.toLowerCase().includes(searchValue);
-      })
-    );
-  }
+  options: [
+    "all",
+    "men's clothing",
+    "jewelery",
+    "electronics",
+    "women's clothing",
+  ],
 };
 
 const rangeInput = document.querySelectorAll(".range-input input"),
@@ -69,9 +35,12 @@ const rangeInput = document.querySelectorAll(".range-input input"),
 let priceGap = 15;
 priceInput.forEach((input) => {
   input.addEventListener("input", (e) => {
+    console.log("test");
+    renderFilteredProducts();
     let minPrice = parseInt(priceInput[0].value),
       maxPrice = parseInt(priceInput[1].value);
-
+    filtersValues.priceMax = maxPrice;
+    filtersValues.priceMin = minPrice;
     if (maxPrice - minPrice >= priceGap && maxPrice <= rangeInput[1].max) {
       if (e.target.className === "input-min") {
         rangeInput[0].value = minPrice;
@@ -86,8 +55,11 @@ priceInput.forEach((input) => {
 
 rangeInput.forEach((input) => {
   input.addEventListener("input", (e) => {
+    renderFilteredProducts();
     let minVal = parseInt(rangeInput[0].value),
       maxVal = parseInt(rangeInput[1].value);
+    filtersValues.priceMax = maxVal;
+    filtersValues.priceMin = minVal;
     if (maxVal - minVal < priceGap) {
       if (e.target.className === "range-min") {
         rangeInput[0].value = maxVal - priceGap;
@@ -158,12 +130,36 @@ const renderTableWithProducts = async () => {
   renderTable(products);
 };
 
-const renderTableWithFilteredProducts = async () => {
-  const filteredProducts = await filterProducts();
-  renderTable(filteredProducts);
-};
-
 renderTableWithProducts();
+
+const searchInput = document.querySelector("#search-input");
+let searchValue = null;
+
+searchInput.addEventListener("input", (e) => {
+  let inputValue = e.target.value;
+  if (inputValue && inputValue.trim().length > 0) {
+    inputValue = inputValue.trim().toLowerCase();
+    searchValue = inputValue;
+    renderFilteredProducts();
+    return searchValue;
+  } else {
+    renderTableWithProducts();
+  }
+});
+
+const searchProducts = (products) => {
+  if (
+    products.filter((product) => {
+      return product.title.toLowerCase().includes(searchValue);
+    }).length === 0
+  ) {
+    console.log("We're sorry, no products match the given query"); //style it later & use elsewhere
+  } else {
+    return products.filter((product) => {
+      return product.title.toLowerCase().includes(searchValue);
+    });
+  }
+};
 
 const filtersValues = {
   category: null,
@@ -171,20 +167,27 @@ const filtersValues = {
   priceMax: null,
 };
 
-const filterProducts = async () => {
-  const products = await getProducts();
+const filterProducts = (input) => {
+  const products = input;
   return products
     .filter((product) => {
       if (filtersValues.category != null) {
-        return product.category === filtersValues.category;
+        if (filtersValues.category === "all") {
+          return product;
+        } else {
+          return product.category === filtersValues.category;
+        }
       }
       return product;
     })
     .filter((product) => {
-      if (filtersValues.size != null) {
-        return product.size === filtersValues.size;
+      if (filtersValues.priceMin || filtersValues.priceMin != null) {
+        return (
+          product.price <= filtersValues.priceMax &&
+          product.price >= filtersValues.priceMin
+        );
       }
-      return product; // add price filter after feat/price-slider is finished
+      return product;
     });
 };
 
@@ -205,44 +208,45 @@ function renderFilterOptions(filterName) {
   filterContainer.appendChild(filterSelect);
 }
 
-const filters = [productFilterCategory]; // add price filter after feat/price-slider is finished
+const filters = [productFilterCategory];
 
 filters.forEach((filter) => {
   renderFilterOptions(filter);
   const select = document.getElementById([filter.id]);
   select.onchange = (e) => {
     filtersValues[filter.id] = e.target.value;
-    renderTableWithFilteredProducts();
+    renderFilteredProducts();
   };
 });
 
 const sort = document.getElementById("sort");
+let sortValue = "default";
 
 sort.onchange = () => {
-  let sortValue = sort.value;
-  const renderTableSort = async () => {
-    const products = await getProducts();
-    switch (sortValue) {
-      case "default":
-        renderTable(products.sort((a, b) => a.price - b.price));
-        console.log("default");
-        break;
-      case "priceDesc":
-        renderTable(products.sort((a, b) => b.price - a.price));
-        console.log("priceDesc");
-        break;
-      case "priceAsc":
-        renderTable(products.sort((a, b) => a.price - b.price));
-        console.log("priceAsc");
-        break;
-      case "rating":
-        renderTable(products.sort((a, b) => b.rating.rate - a.rating.rate));
-        console.log("rating");
-        break;
-      case "ratingCount":
-        renderTable(products.sort((a, b) => b.rating.count - a.rating.count));
-        console.log("ratingCount");
-    }
-  };
-  renderTableSort();
+  sortValue = sort.value;
+  renderFilteredProducts();
+};
+
+const sortProducts = (products) => {
+  switch (sortValue) {
+    case "default":
+      return products.sort((a, b) => a.id - b.id);
+    case "priceDesc":
+      return products.sort((a, b) => b.price - a.price);
+    case "priceAsc":
+      return products.sort((a, b) => a.price - b.price);
+    case "rating":
+      return products.sort((a, b) => b.rating.rate - a.rating.rate);
+    case "ratingCount":
+      return products.sort((a, b) => b.rating.count - a.rating.count);
+  }
+};
+
+const renderFilteredProducts = async () => {
+  const products = await getProducts();
+  if (searchValue === null) {
+    renderTable(sortProducts(filterProducts(products)));
+  } else {
+    renderTable(sortProducts(filterProducts(searchProducts(products))));
+  }
 };
