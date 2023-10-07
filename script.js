@@ -16,13 +16,6 @@ for (let i = 0; i < 10; i++) {
   container.append(skeletonTemplate.content.cloneNode(true));
 }
 
-const productSort = {
-  label: "Sortowanie",
-  name: "sort",
-  id: "sort",
-  options: ["priceAsc", "priceDesc", "rating", "ratingCount", "default"],
-};
-
 const productFilterCategory = {
   label: "Category",
   name: "category-filter",
@@ -36,47 +29,18 @@ const productFilterCategory = {
   ],
 };
 
-const searchInput = document.querySelector("#search-input");
-const searchButton = document.querySelector("#search-button");
-let searchValue = null;
-
-searchInput.addEventListener("input", (e) => {
-  let inputValue = e.target.value;
-  if (inputValue && inputValue.trim().length > 0) {
-    inputValue = inputValue.trim().toLowerCase();
-    searchValue = inputValue;
-    renderTableSearch();
-    return searchValue;
-  } else {
-    renderTableWithProducts();
-  }
-});
-
-const renderTableSearch = async () => {
-  let products = await getProducts();
-  if (
-    products.filter((product) => {
-      return product.title.toLowerCase().includes(searchValue);
-    }).length === 0
-  ) {
-    console.log("We're sorry, no products match the given query"); //style it later & use elsewhere
-  } else {
-    renderTable(
-      products.filter((product) => {
-        return product.title.toLowerCase().includes(searchValue);
-      })
-    );
-  }
-};
-
 const rangeInput = document.querySelectorAll(".range-input input"),
   priceInput = document.querySelectorAll(".price-input input"),
   range = document.querySelector(".slider .progress");
 let priceGap = 15;
 priceInput.forEach((input) => {
   input.addEventListener("input", (e) => {
+    console.log("test");
+    renderFilteredProducts();
     let minPrice = parseInt(priceInput[0].value),
       maxPrice = parseInt(priceInput[1].value);
+    filtersValues.priceMax = maxPrice;
+    filtersValues.priceMin = minPrice;
     if (maxPrice - minPrice >= priceGap && maxPrice <= rangeInput[1].max) {
       if (e.target.className === "input-min") {
         rangeInput[0].value = minPrice;
@@ -91,6 +55,7 @@ priceInput.forEach((input) => {
 
 rangeInput.forEach((input) => {
   input.addEventListener("input", (e) => {
+    renderFilteredProducts();
     let minVal = parseInt(rangeInput[0].value),
       maxVal = parseInt(rangeInput[1].value);
     filtersValues.priceMax = maxVal;
@@ -165,12 +130,36 @@ const renderTableWithProducts = async () => {
   renderTable(products);
 };
 
-const renderTableWithFilteredProducts = async () => {
-  const filteredProducts = await filterProducts(cachedProducts);
-  renderTable(filteredProducts);
-};
-
 renderTableWithProducts();
+
+const searchInput = document.querySelector("#search-input");
+let searchValue = null;
+
+searchInput.addEventListener("input", (e) => {
+  let inputValue = e.target.value;
+  if (inputValue && inputValue.trim().length > 0) {
+    inputValue = inputValue.trim().toLowerCase();
+    searchValue = inputValue;
+    renderFilteredProducts();
+    return searchValue;
+  } else {
+    renderTableWithProducts();
+  }
+});
+
+const searchProducts = (products) => {
+  if (
+    products.filter((product) => {
+      return product.title.toLowerCase().includes(searchValue);
+    }).length === 0
+  ) {
+    console.log("We're sorry, no products match the given query"); //style it later & use elsewhere
+  } else {
+    return products.filter((product) => {
+      return product.title.toLowerCase().includes(searchValue);
+    });
+  }
+};
 
 const filtersValues = {
   category: null,
@@ -226,17 +215,16 @@ filters.forEach((filter) => {
   const select = document.getElementById([filter.id]);
   select.onchange = (e) => {
     filtersValues[filter.id] = e.target.value;
-    renderTableWithFilteredProducts();
+    renderFilteredProducts();
   };
 });
 
 const sort = document.getElementById("sort");
-let sortValue;
+let sortValue = "default";
 
 sort.onchange = () => {
   sortValue = sort.value;
   renderFilteredProducts();
-  //renderTable(sortProducts(cachedProducts));
 };
 
 const sortProducts = (products) => {
@@ -256,32 +244,9 @@ const sortProducts = (products) => {
 
 const renderFilteredProducts = async () => {
   const products = await getProducts();
-  let filteredProducts = filterProducts(products);
-
-  renderTable(sortProducts(filteredProducts));
+  if (searchValue === null) {
+    renderTable(sortProducts(filterProducts(products)));
+  } else {
+    renderTable(sortProducts(filterProducts(searchProducts(products))));
+  }
 };
-
-/*1. Get Array, put it into a variable
-  2. See what filters are used - get a variable from them?
-  3. Filter the array through all available filters using the current settings, use default where no changes were made
-  4. Fire the function on every change of a filter, search query or sorting*/
-
-/*
-products
-.filter((product) => {
-  if (filtersValues.category != null) {
-    return product.category === filtersValues.category;
-  }
-  return product;
-})
-.filter((product) => {
-  if (filtersValues.priceMin || filtersValues.priceMin != null) {
-    return (
-      product.price <= filtersValues.priceMax &&
-      product.price >= filtersValues.priceMin
-    );
-  }
-  return product;
-});
-
-*/
