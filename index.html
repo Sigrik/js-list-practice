@@ -7,95 +7,94 @@
     <title>Shopping Website - Javascript List Practice</title>
   </head>
   <body>
-    <div class="container">
-      <div class="filter-navbar">
-        <div class="search-container">
+    <div class="filter-navbar">
+      <div class="search-container">
+        <input
+          type="search"
+          id="search-input"
+          placeholder="Search"
+          autocomplete="off"
+        />
+      </div>
+      <div class="filter-container"></div>
+      <div class="filter-container">
+        <label for="sort">Sort by:</label>
+        <select name="sort" id="sort" autocomplete="off">
+          <option value="default" onclick="">Default</option>
+          <option value="priceDesc" onclick="">Price - descending</option>
+          <option value="priceAsc" onclick="">Price - ascending</option>
+          <option value="rating" onclick="">Rating</option>
+          <option value="ratingCount" onclick="">Popularity</option>
+        </select>
+      </div>
+      <div class="price-container">
+        <span>Price (zł):</span>
+        <div class="slider">
+          <div class="progress"></div>
+        </div>
+        <div class="range-input">
           <input
-            type="search"
-            id="search-input"
-            placeholder="Search"
+            type="range"
+            class="range-min"
+            min="0"
+            max="1000"
+            value="50"
+            step="1"
+            autocomplete="off"
+          />
+          <input
+            type="range"
+            class="range-max"
+            min="0"
+            max="1000"
+            value="400"
+            step="1"
             autocomplete="off"
           />
         </div>
-        <div class="filter-container">
-          <label for="sort">Sort by:</label>
-          <select name="sort" id="sort" autocomplete="off">
-            <option value="default" onclick="">Default</option>
-            <option value="priceDesc" onclick="">Price - descending</option>
-            <option value="priceAsc" onclick="">Price - ascending</option>
-            <option value="rating" onclick="">Rating</option>
-            <option value="ratingCount" onclick="">Popularity</option>
-          </select>
-          <div class="price-container">
-            <span>Price (zł):</span>
-            <div class="slider">
-              <div class="progress"></div>
-            </div>
-            <div class="range-input">
-              <input
-                type="range"
-                class="range-min"
-                min="0"
-                max="1000"
-                value="50"
-                step="1"
-                autocomplete="off"
-              />
-              <input
-                type="range"
-                class="range-max"
-                min="0"
-                max="1000"
-                value="400"
-                step="1"
-                autocomplete="off"
-              />
-            </div>
-            <div class="price-input">
-              <div class="field">
-                <input
-                  type="number"
-                  class="input-min"
-                  value="50"
-                  autocomplete="off"
-                />
-              </div>
-              <div class="separator">-</div>
-              <div class="field">
-                <input
-                  type="number"
-                  class="input-max"
-                  value="400"
-                  autocomplete="off"
-                />
-              </div>
-            </div>
+        <div class="price-input">
+          <div class="field">
+            <input
+              type="number"
+              class="input-min"
+              value="50"
+              autocomplete="off"
+            />
+          </div>
+          <div class="separator">-</div>
+          <div class="field">
+            <input
+              type="number"
+              class="input-max"
+              value="400"
+              autocomplete="off"
+            />
           </div>
         </div>
       </div>
-      <div class="products-container"></div>
-      <div id="footer">
-        Vectors and icons by
-        <a
-          href="https://github.com/emblemicons/emblemicons.github.io?ref=svgrepo.com"
-          target="_blank"
-          >Emblemicons</a
-        >
-        in MIT License via
-        <a href="https://www.svgrepo.com/" target="_blank">SVG Repo</a>
-      </div>
-      <template id="skeleton-template">
-        <a class="skeleton-product" target="_blank">
-          <div class="skeleton-image skeleton"></div>
-          <h3 class="skeleton-title">
-            <div class="skeleton skeleton-text"></div>
-            <div class="skeleton skeleton-text"></div>
-          </h3>
-          <div class="skeleton skeleton-text skeleton-price"></div>
-          <div class="skeleton skeleton-text skeleton-rating"></div>
-        </a>
-      </template>
     </div>
+    <div class="products-container"></div>
+    <div id="footer">
+      Vectors and icons by
+      <a
+        href="https://github.com/emblemicons/emblemicons.github.io?ref=svgrepo.com"
+        target="_blank"
+        >Emblemicons</a
+      >
+      in MIT License via
+      <a href="https://www.svgrepo.com/" target="_blank">SVG Repo</a>
+    </div>
+    <template id="skeleton-template">
+      <a class="skeleton-product" target="_blank">
+        <div class="skeleton-image skeleton"></div>
+        <h3 class="skeleton-title">
+          <div class="skeleton skeleton-text"></div>
+          <div class="skeleton skeleton-text"></div>
+        </h3>
+        <div class="skeleton skeleton-text skeleton-price"></div>
+        <div class="skeleton skeleton-text skeleton-rating"></div>
+      </a>
+    </template>
     <script src="script.js"></script>
   </body>
 </html>

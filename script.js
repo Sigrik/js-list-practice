@@ -17,7 +17,7 @@ for (let i = 0; i < 10; i++) {
 }
 
 const productFilterCategory = {
-  label: "Category",
+  label: "Category: ",
   name: "category-filter",
   id: "category",
   options: [
