@@ -116,11 +116,16 @@ const renderTable = async (products) => {
     productPrice.innerHTML = `${product.price} zł`;
     const productRating = document.createElement("div");
     productRating.classList.add("product-info", "product-rating");
-    productRating.innerHTML = ratingToStars(product.rating.rate);
+    const productButton = document.createElement("div");
+    productButton.classList.add("product-info", "product-button");
+    productButton.textContent = "Product unavailable";
+    productRating.innerHTML =
+      ratingToStars(product.rating.rate) + "(" + product.rating.count + ")";
     productContent.appendChild(productImage);
     productContent.appendChild(productTitle);
     productContent.appendChild(productPrice);
     productContent.appendChild(productRating);
+    productContent.appendChild(productButton);
     productsContainer.appendChild(productContent);
   });
 };

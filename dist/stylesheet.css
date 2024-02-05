@@ -11,21 +11,22 @@ body {
 .filter-navbar {
   position: sticky;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  background: #19202a;
-  color: #ffffff;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 2fr));
+  background: #ffffff;
   padding: 16px;
-  width: 100%;
   z-index: 1;
   top: 0;
-  margin-bottom: 18px; }
+  margin-bottom: 18px;
+  -webkit-box-shadow: 0px 3px 22px -4px rgba(52, 52, 52, 0.25);
+  -moz-box-shadow: 0px 3px 22px -4px rgba(52, 52, 52, 0.25);
+  box-shadow: 0px 3px 22px -4px rgba(52, 52, 52, 0.25); }
 
 .price-container {
   grid-column: span 2; }
 
 .price-input {
   display: flex;
-  margin: 30px 0 35px; }
+  margin: 24px 0 24px; }
 
 .price-input .field {
   display: flex;
@@ -64,7 +65,7 @@ input[type="number"]::-webkit-inner-spin-button {
   right: 60%;
   position: absolute;
   border-radius: 5px;
-  background: #17a2b8; }
+  background: #fc4d4d; }
 
 .range-input {
   position: relative; }
@@ -73,34 +74,35 @@ input[type="number"]::-webkit-inner-spin-button {
   position: absolute;
   width: 100%;
   height: 5px;
-  top: -5px;
+  top: -7px;
+  left: -2px;
   background: none;
   pointer-events: none;
   -webkit-appearance: none;
   -moz-appearance: none; }
 
 input[type="range"]::-webkit-slider-thumb {
-  height: 17px;
-  width: 17px;
+  height: 24px;
+  width: 24px;
   border-radius: 50%;
-  background: #17a2b8;
+  background: #fc4d4d;
   pointer-events: auto;
   -webkit-appearance: none;
   box-shadow: 0 0 6px rgba(0, 0, 0, 0.05); }
 
 input[type="range"]::-moz-range-thumb {
-  height: 17px;
-  width: 17px;
+  height: 24px;
+  width: 24px;
   border: none;
   border-radius: 50%;
-  background: #17a2b8;
+  background: #fc4d4d;
   pointer-events: auto;
   -moz-appearance: none;
   box-shadow: 0 0 6px rgba(0, 0, 0, 0.05); }
 
 .products-container {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); }
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }
 
 .product {
   background: #fff;
@@ -109,17 +111,29 @@ input[type="range"]::-moz-range-thumb {
   justify-items: left;
   padding: 24px;
   margin: 18px;
-  border-radius: 1px; }
+  border-radius: 12px; }
 
 .product-info {
   padding-top: 8px;
   padding-bottom: 8px; }
 
+.product-rating {
+  color: #fc4d4d; }
+
 .product-price {
   font-size: 24px; }
 
+.product-button {
+  display: flex;
+  width: 100%;
+  height: 32px;
+  align-items: center;
+  justify-content: center;
+  background: #ff9292;
+  border-radius: 12px; }
+
 .product-image {
-  height: 300px;
+  min-height: 200px;
   width: 100%;
   background-size: contain;
   background-repeat: no-repeat;
@@ -129,7 +143,8 @@ input[type="range"]::-moz-range-thumb {
 .star {
   display: inline;
   height: 24px;
-  position: relative; }
+  position: relative;
+  filter: invert(43%) sepia(44%) saturate(3527%) hue-rotate(333deg) brightness(103%) contrast(101%); }
 
 .skeleton {
   animation: skeleton-loading 1s linear infinite alternate; }
